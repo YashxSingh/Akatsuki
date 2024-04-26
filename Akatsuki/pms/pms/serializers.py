@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import EmployeeData, ComplianceData, AttData, CVAData, TSRData
+from .models import EmployeeData, Goals, PerformanceReview, Feedback, Appraisal, ComplianceData, AttData, CVAData, TSRData
 
 class ComplianceDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComplianceData
-        fields = ['empid', 'compliance_done', 'compliance_left']
+        fields = ['empid', 'compliance_done', 'compliance_total']
 
 class AttDataSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,11 +21,35 @@ class TSRDataSerializer(serializers.ModelSerializer):
         model = TSRData
         fields = ['empid', 'course_name', 'course_id', 'course_description', 'percentage_completion']
 
+class AppraisalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Appraisal
+        fields = ['appraisal_id', 'empid', 'appraisal_date', 'appraisal_score']
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = ['feedback_id', 'empid', 'feedback_text']
+
+class PerformanceReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PerformanceReview
+        fields = ['review_id', 'empid', 'reviewer_id', 'performance_rating', 'comments']
+
+class GoalsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goals
+        fields = ['goal_id', 'goal_description', 'due_date', 'empid']
+
 class EmployeeDataSerializer(serializers.ModelSerializer):
     ComplianceData_var = ComplianceDataSerializer(many = True, read_only = True)
     AttData_var = AttDataSerializer(many = True, read_only = True)
     CVAData_var = CVADataSerializer(many = True, read_only = True)
     TSRData_var = TSRDataSerializer(many = True, read_only = True)
+    Goals_var = TSRDataSerializer(many = True, read_only = True)
+    PerformanceReview_var = TSRDataSerializer(many = True, read_only = True)
+    Feedback_var = TSRDataSerializer(many = True, read_only = True)
+    Appraisal_var = TSRDataSerializer(many = True, read_only = True)
     class Meta:
         model = EmployeeData
-        fields = ['empid', 'name', 'mob', 'email', 'address', 'l1_manager', 'projid', 'ComplianceData_var', 'AttData_var', 'CVAData_var', 'TSRData_var']
+        fields = ['empid', 'name', 'mob', 'email', 'address', 'l1_manager', 'projid', 'ComplianceData_var', 'AttData_var', 'CVAData_var', 'TSRData_var', 'Goals_var', 'PerformanceReview_var', 'Feedback_var', 'Appraisal_var']

@@ -52,4 +52,4 @@ class EmployeeDataSerializer(serializers.ModelSerializer):
     Appraisal_var = TSRDataSerializer(many = True, read_only = True)
     class Meta:
         model = EmployeeData
-        fields = ['empid', 'name', 'mob', 'email', 'address', 'l1_manager', 'projid', 'ComplianceData_var', 'AttData_var', 'CVAData_var', 'TSRData_var', 'Goals_var', 'PerformanceReview_var', 'Feedback_var', 'Appraisal_var']
+        fields = ['empid', 'name', 'gender', 'mob', 'email', 'address', 'l1_manager', 'projid', 'horizontal', 'vertical', 'joining_date', 'ComplianceData_var', 'AttData_var', 'CVAData_var', 'TSRData_var', 'Goals_var', 'PerformanceReview_var', 'Feedback_var', 'Appraisal_var']

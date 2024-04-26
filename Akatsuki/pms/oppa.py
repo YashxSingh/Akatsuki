@@ -15,5 +15,10 @@ def prompt(value):
     return response.choices[0].message.content
 
 while(True):
-    value = str(input("Enter Query: "))
-    print((prompt(value)))
+    value = str(input("You: "))
+    if value.lower() == 'exit' or value.lower() == 'quit':
+        print('Have a nice day!! ')
+        break
+    print('\nGPT4: ', (prompt(value)), '\n')
+
+    # An employee is exceptionally good at java coding and has taken only 3 leaves throught the year and has been regulary coming to office. He also completed many courses in java. Give his feedback in a paragraph.

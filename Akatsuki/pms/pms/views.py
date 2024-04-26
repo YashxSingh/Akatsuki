@@ -159,3 +159,32 @@ def tsr_data_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['GET'])
+def get_employee_goals(request, emp_id):
+    try:
+        goals = Goals.objects.filter(empid=emp_id)
+        serialized_goals = GoalsSerializer(goals, many=True).data
+        return JsonResponse({"goals": serialized_goals})
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
+    
+
+@api_view(['GET'])
+def get_employee_performance_and_feedback(request, employee_id):
+    try:
+        performance_reviews = PerformanceReview.objects.filter(empid=employee_id)
+        feedbacks = Feedback.objects.filter(empid=employee_id)
+
+        serialized_performance_reviews = PerformanceReviewSerializer(performance_reviews, many=True).data
+        serialized_feedbacks = FeedbackSerializer(feedbacks, many=True).data
+
+        return JsonResponse({
+            "performance_reviews": serialized_performance_reviews,
+            "feedbacks": serialized_feedbacks
+        })
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=400)

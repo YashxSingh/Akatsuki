@@ -73,7 +73,7 @@ class AttData(models.Model):
     overtime = models.IntegerField(null=True)
     max_working_days = models.IntegerField(null=True)
     def __str__(self):
-        return f"{self.leaves_taken} leaves taken, {self.wfh_taken} wfh taken, {self.overtime}, in {self.max_working_days} days in a year"
+        return f"{self.leaves_taken} leaves taken, {self.wfh_taken} wfh taken, {self.overtime} hours overtime, in {self.max_working_days} days in a year"
 
 
 class CVAData(models.Model):

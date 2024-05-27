@@ -208,15 +208,26 @@ def post_comments(request):
 
 
 # http://localhost:8000/api/get_feedback/?empid=<your_empid>&qual=<your_qual> (replace <your_empid> and <your_qual> with actual values).
-@api_view(['POST'])
-def get_feedback(request):
+@api_view(['GET'])
+def get_feedback(request, emp_id, qual):
     try:
-        empid = request.data.get('empid')
-        qual = request.data.get('qual')
-        employee = EmployeeData.objects.get(id=empid)
+        employee = EmployeeData.objects.get(empid=emp_id)
         emp_name = employee.name
         response = gen_feedback(emp_name, qual)
 
         return Response({'response': response})
     except Exception as e:
         return Response({'error': str(e)})
+    
+# @api_view(['GET'])
+# def get_learn_path(request, emp_id):
+#     try:
+#         employee = EmployeeData.objects.get(empid=emp_id)
+#         emp_name = employee.name
+#         tsr_data = TSRData.objects.get(empid=emp_id)
+#         courses = tsr_data.course_name
+#         response = gen_feedback(emp_name, qual)
+
+#         return Response({'response': response})
+#     except Exception as e:
+#         return Response({'error': str(e)})

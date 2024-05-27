@@ -4,6 +4,7 @@ from .serializers import EmployeeDataSerializer, ComplianceDataSerializer, AttDa
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
+from .oppa import gen_feedback
 
 @api_view(['GET', 'POST'])
 def employee_data_list(request):
@@ -192,8 +193,8 @@ def get_employee_performance_and_feedback(request, employee_id):
 @api_view(['GET'])
 def self_comments(request, emp_id):
     comments = SelfComments.objects.filter(emp_id = emp_id)
-    if comments.DoesNotExist:
-        return  Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
+    # if comments.DoesNotExist:
+    #     return  Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
     serialized_self_comments = SelfCommentsSerializer(comments, many=True)
     return JsonResponse(serialized_self_comments.data, safe=False)
 
@@ -204,3 +205,18 @@ def post_comments(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# http://localhost:8000/api/get_feedback/?empid=<your_empid>&qual=<your_qual> (replace <your_empid> and <your_qual> with actual values).
+@api_view(['POST'])
+def get_feedback(request):
+    try:
+        empid = request.data.get('empid')
+        qual = request.data.get('qual')
+        employee = EmployeeData.objects.get(id=empid)
+        emp_name = employee.name
+        response = gen_feedback(emp_name, qual)
+
+        return Response({'response': response})
+    except Exception as e:
+        return Response({'error': str(e)})

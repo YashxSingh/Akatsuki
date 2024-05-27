@@ -95,3 +95,15 @@ class TSRData(models.Model):
 
     def __str__(self) -> str:
         return self.course_name
+    
+class SelfComments(models.Model):
+    emp_id = models.ForeignKey(EmployeeData, on_delete=models.CASCADE, null=True, related_name='self_comments', default='', blank=True)
+    process_compliance = models.TextField()
+    learning_and_development = models.TextField()
+    team_collaboration = models.TextField()
+    delivery = models.TextField()
+    communication = models.TextField()
+    customer_focus = models.TextField()
+
+    def __str__(self):
+        return f"Employee {self.emp_id} Self Comments."

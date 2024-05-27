@@ -6,11 +6,12 @@ load_dotenv()
 api_key = os.getenv("AZURE_OPENAI_API_KEY")
 endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
 model = "gpt-4"
+username = input('Enter employee name : ')
 
 client = AzureOpenAI(api_key=api_key, api_version="2023-03-15-preview", azure_endpoint=endpoint)
 
 def prompt(value):
-    conversation = [{"role": "user", "content": value}, {"role": "system", "content": "NO fucking wayyy"}]
+    conversation = [{"role": "user", "content": value}, {"role": "system", "content": f"Give 30 words feedback in third person about {username}, whose core qualities are "}]
     response = client.chat.completions.create(model=model, messages=conversation)
     return response.choices[0].message.content
 

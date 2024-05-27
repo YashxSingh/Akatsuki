@@ -1,6 +1,6 @@
 from django.http import JsonResponse
-from .models import EmployeeData, Goals, PerformanceReview, Feedback, Appraisal, ComplianceData, AttData, CVAData, TSRData
-from .serializers import EmployeeDataSerializer, ComplianceDataSerializer, AttDataSerializer, CVADataSerializer, TSRDataSerializer, GoalsSerializer, PerformanceReviewSerializer, FeedbackSerializer, AppraisalSerializer
+from .models import EmployeeData, Goals, PerformanceReview, Feedback, Appraisal, ComplianceData, AttData, CVAData, TSRData, SelfComments
+from .serializers import EmployeeDataSerializer, ComplianceDataSerializer, AttDataSerializer, CVADataSerializer, TSRDataSerializer, GoalsSerializer, PerformanceReviewSerializer, FeedbackSerializer, AppraisalSerializer, SelfCommentsSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -188,3 +188,19 @@ def get_employee_performance_and_feedback(request, employee_id):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)
+    
+@api_view(['GET'])
+def self_comments(request, emp_id):
+    comments = SelfComments.objects.filter(emp_id = emp_id)
+    if comments.DoesNotExist:
+        return  Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
+    serialized_self_comments = SelfCommentsSerializer(comments, many=True)
+    return JsonResponse(serialized_self_comments.data, safe=False)
+
+@api_view(['POST'])
+def post_comments(request):
+    serializer = SelfCommentsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

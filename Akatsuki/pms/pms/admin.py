@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import EmployeeData, ComplianceData, AttData, CVAData, TSRData, Goals, PerformanceReview, Feedback, Appraisal
+from .models import EmployeeData, ComplianceData, AttData, CVAData, TSRData, Goals, PerformanceReview, Feedback, Appraisal, SelfComments
 
 admin.site.register(EmployeeData)
 admin.site.register(ComplianceData)
@@ -10,3 +10,4 @@ admin.site.register(Goals)
 admin.site.register(PerformanceReview)
 admin.site.register(Feedback)
 admin.site.register(Appraisal)
+admin.site.register(SelfComments)

@@ -16,4 +16,6 @@ urlpatterns = [
     path('tsrdata/', views.tsr_data_list),
     path('get_employee_goals/<int:emp_id>', views.get_employee_goals),
     path('get_employee_rnf/<int:employee_id>', views.get_employee_performance_and_feedback),
+    path('selfcmt/<int:emp_id>', views.self_comments),
+    path('postcmt/', views.post_comments),
 ]

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import EmployeeData, Goals, PerformanceReview, Feedback, Appraisal, ComplianceData, AttData, CVAData, TSRData
+from .models import EmployeeData, Goals, PerformanceReview, Feedback, Appraisal, ComplianceData, AttData, CVAData, TSRData, SelfComments
 
 class ComplianceDataSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,15 +41,22 @@ class GoalsSerializer(serializers.ModelSerializer):
         model = Goals
         fields = ['goal_id', 'goal_description', 'due_date', 'empid']
 
+class SelfCommentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SelfComments
+        fields = ['emp_id', 'process_compliance', 'learning_and_development',
+                  'team_collaboration', 'delivery', 'communication', 'customer_focus']
+
 class EmployeeDataSerializer(serializers.ModelSerializer):
     ComplianceData_var = ComplianceDataSerializer(many = True, read_only = True)
     AttData_var = AttDataSerializer(many = True, read_only = True)
     CVAData_var = CVADataSerializer(many = True, read_only = True)
     TSRData_var = TSRDataSerializer(many = True, read_only = True)
-    Goals_var = TSRDataSerializer(many = True, read_only = True)
-    PerformanceReview_var = TSRDataSerializer(many = True, read_only = True)
-    Feedback_var = TSRDataSerializer(many = True, read_only = True)
-    Appraisal_var = TSRDataSerializer(many = True, read_only = True)
+    Goals_var = GoalsSerializer(many = True, read_only = True)
+    PerformanceReview_var = PerformanceReviewSerializer(many = True, read_only = True)
+    Feedback_var = FeedbackSerializer(many = True, read_only = True)
+    Appraisal_var = AppraisalSerializer(many = True, read_only = True)
+    SelfComments_var = SelfCommentsSerializer(many = True, read_only = True)
     class Meta:
         model = EmployeeData
-        fields = ['empid', 'name', 'gender', 'mob', 'email', 'address', 'l1_manager', 'projid', 'horizontal', 'vertical', 'joining_date', 'ComplianceData_var', 'AttData_var', 'CVAData_var', 'TSRData_var', 'Goals_var', 'PerformanceReview_var', 'Feedback_var', 'Appraisal_var']
+        fields = ['empid', 'name', 'gender', 'mob', 'email', 'address', 'l1_manager', 'projid', 'horizontal', 'vertical', 'joining_date', 'ComplianceData_var', 'AttData_var', 'CVAData_var', 'TSRData_var', 'Goals_var', 'PerformanceReview_var', 'Feedback_var', 'Appraisal_var', 'SelfComments_var']
